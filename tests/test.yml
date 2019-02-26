@@ -1,5 +1,22 @@
 ---
 - hosts: localhost
-  remote_user: root
-  roles:
-    - znerol.wkd
+  tasks:
+    - name: Role znerol.wkd imported
+      import_role:
+        name: znerol.wkd
+
+    - name: Filter wkd_hash - fail for unexpected output
+      loop:
+        - [ "Joe.Doe@Example.ORG", "iy9q119eutrkn8s1mk4r39qejnbu3n5q@example.org" ]
+        - [ "joe.doe@Example.com", "iy9q119eutrkn8s1mk4r39qejnbu3n5q@example.com" ]
+        - [ "test-wkd@example.org", "4hg7tescnttreaouu4z1izeuuyibwww1@example.org" ]
+        - [ "me@example.com", "s8y7oh5xrdpu9psba3i5ntk64ohouhga@example.com" ]
+        - [ "äëöüï@example.org", "4bmxx5m7g455r1terzcd4h3dibnoh759@example.org" ]
+        - [ "foo@example.com", "bxzcxpxk8h87z1k7bzk86xn5aj47intu@example.com" ]
+      vars:
+        gpg_uid: "{{ item[0] }}"
+        wkd_hash_actual: "{{ gpg_uid | wkd_hash() }}"
+        wkd_hash_expected: "{{ item[1] }}"
+      when: wkd_hash_actual != wkd_hash_expected
+      fail:
+        msg: "Unexpected wkd hash {{ wkd_hash_actual }} for uid {{ gpg_uid }}."
