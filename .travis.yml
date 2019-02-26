@@ -6,10 +6,9 @@ python: "2.7"
 
 env:
   - ANSIBLE_VERSION=latest
-  - ANSIBLE_VERSION=2.7
-  - ANSIBLE_VERSION=2.6
-  - ANSIBLE_VERSION=2.5
-  - ANSIBLE_VERSION=2.4
+  - ANSIBLE_VERSION=2.7.*
+  - ANSIBLE_VERSION=2.6.*
+  - ANSIBLE_VERSION=2.5.*
 
 install:
   - if [ "$ANSIBLE_VERSION" = "latest" ]; then pip install ansible; else pip install ansible==$ANSIBLE_VERSION; fi
