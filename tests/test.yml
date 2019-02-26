@@ -3,7 +3,7 @@
   tasks:
     - name: Role znerol.wkd imported
       import_role:
-        name: znerol.wkd
+        name: ../../ansible-role-wkd
 
     - name: Filter wkd_hash - fail for unexpected output
       loop:
