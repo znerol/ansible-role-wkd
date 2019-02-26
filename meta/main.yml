@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: wkd
   author: Lorenz Schori
   description: OpenPGP Web Key Directory generation
 
