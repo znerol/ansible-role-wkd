@@ -63,9 +63,9 @@ def _zb32_encode(data):
 
 def wkd_hash(a, *args, **kw):
     ''' Convert e-mail address to wkd hash '''
-    localpart, domain = a.lower().rsplit('@', 1)
+    localpart, _ = a.lower().rsplit('@', 1)
     wkdhash = _zb32_encode(hashlib.sha1(to_bytes(localpart)).digest())
-    return to_text("{:s}@{:s}".format(wkdhash, domain))
+    return to_text(wkdhash)
 
 
 class FilterModule(object):

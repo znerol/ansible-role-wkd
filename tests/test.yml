@@ -7,12 +7,12 @@
 
     - name: Filter wkd_hash - fail for unexpected output
       loop:
-        - [ "Joe.Doe@Example.ORG", "iy9q119eutrkn8s1mk4r39qejnbu3n5q@example.org" ]
-        - [ "joe.doe@Example.com", "iy9q119eutrkn8s1mk4r39qejnbu3n5q@example.com" ]
-        - [ "test-wkd@example.org", "4hg7tescnttreaouu4z1izeuuyibwww1@example.org" ]
-        - [ "me@example.com", "s8y7oh5xrdpu9psba3i5ntk64ohouhga@example.com" ]
-        - [ "äëöüï@example.org", "4bmxx5m7g455r1terzcd4h3dibnoh759@example.org" ]
-        - [ "foo@example.com", "bxzcxpxk8h87z1k7bzk86xn5aj47intu@example.com" ]
+        - [ "Joe.Doe@Example.ORG", "iy9q119eutrkn8s1mk4r39qejnbu3n5q" ]
+        - [ "joe.doe@Example.com", "iy9q119eutrkn8s1mk4r39qejnbu3n5q" ]
+        - [ "test-wkd@example.org", "4hg7tescnttreaouu4z1izeuuyibwww1" ]
+        - [ "me@example.com", "s8y7oh5xrdpu9psba3i5ntk64ohouhga" ]
+        - [ "äëöüï@example.org", "4bmxx5m7g455r1terzcd4h3dibnoh759" ]
+        - [ "foo@example.com", "bxzcxpxk8h87z1k7bzk86xn5aj47intu" ]
       vars:
         gpg_uid: "{{ item[0] }}"
         wkd_hash_actual: "{{ gpg_uid | wkd_hash() }}"
