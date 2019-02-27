@@ -3,7 +3,8 @@ Anlibe Role: WKD
 
 [![Build Status](https://travis-ci.org/znerol/ansible-role-wkd.svg?branch=master)](https://travis-ci.org/znerol/ansible-role-wkd)
 
-Provides a `wkd_hash()` filter to convert PGP uids into [Web Key Directory][1] hash.
+Provides a `wkd_hash()`, `wkd_host()`, `wkd_dir()` and `wkd_url()` filters to
+convert PGP uids into [Web Key Directory][1] hash.
 
 Requirements
 ------------
