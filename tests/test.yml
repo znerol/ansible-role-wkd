@@ -20,3 +20,54 @@
       when: wkd_hash_actual != wkd_hash_expected
       fail:
         msg: "Unexpected wkd hash {{ wkd_hash_actual }} for uid {{ gpg_uid }}."
+
+    - name: Filter wkd_host - fail for unexpected output
+      loop:
+        - [ "Joe.Doe@Example.ORG", "advanced", "openpgpkey.example.org" ]
+        - [ "joe.doe@Example.com", "advanced", "openpgpkey.example.com" ]
+        - [ "test-wkd@example.org", "advanced", "openpgpkey.example.org" ]
+        - [ "me@example.com", "direct", "example.com" ]
+        - [ "äëöüï@example.org", "direct", "example.org" ]
+        - [ "foo@example.com", "direct", "example.com" ]
+      vars:
+        gpg_uid: "{{ item[0] }}"
+        wkd_method: "{{ item[1] }}"
+        wkd_host_actual: "{{ gpg_uid | wkd_host(wkd_method=wkd_method) }}"
+        wkd_host_expected: "{{ item[2] }}"
+      when: wkd_host_actual != wkd_host_expected
+      fail:
+        msg: "Unexpected wkd url {{ wkd_url_actual }} for uid {{ gpg_uid }}."
+
+    - name: Filter wkd_dir - fail for unexpected output
+      loop:
+        - [ "Joe.Doe@Example.ORG", "advanced", ".well-known/openpgpkey/example.org/hu" ]
+        - [ "joe.doe@Example.com", "advanced", ".well-known/openpgpkey/example.com/hu" ]
+        - [ "test-wkd@example.org", "advanced", ".well-known/openpgpkey/example.org/hu" ]
+        - [ "me@example.com", "direct", ".well-known/openpgpkey/hu" ]
+        - [ "äëöüï@example.org", "direct", ".well-known/openpgpkey/hu" ]
+        - [ "foo@example.com", "direct", ".well-known/openpgpkey/hu" ]
+      vars:
+        gpg_uid: "{{ item[0] }}"
+        wkd_method: "{{ item[1] }}"
+        wkd_dir_actual: "{{ gpg_uid | wkd_dir(wkd_method=wkd_method) }}"
+        wkd_dir_expected: "{{ item[2] }}"
+      when: wkd_dir_actual != wkd_dir_expected
+      fail:
+        msg: "Unexpected wkd url {{ wkd_url_actual }} for uid {{ gpg_uid }}."
+
+    - name: Filter wkd_url - fail for unexpected output
+      loop:
+        - [ "Joe.Doe@Example.ORG", "advanced", "https://openpgpkey.example.org/.well-known/openpgpkey/example.org/hu/iy9q119eutrkn8s1mk4r39qejnbu3n5q?l=Joe.Doe" ]
+        - [ "joe.doe@Example.com", "advanced", "https://openpgpkey.example.com/.well-known/openpgpkey/example.com/hu/iy9q119eutrkn8s1mk4r39qejnbu3n5q?l=joe.doe" ]
+        - [ "test-wkd@example.org", "advanced", "https://openpgpkey.example.org/.well-known/openpgpkey/example.org/hu/4hg7tescnttreaouu4z1izeuuyibwww1?l=test-wkd" ]
+        - [ "me@example.com", "direct", "https://example.com/.well-known/openpgpkey/hu/s8y7oh5xrdpu9psba3i5ntk64ohouhga?l=me" ]
+        - [ "äëöüï@example.org", "direct", "https://example.org/.well-known/openpgpkey/hu/4bmxx5m7g455r1terzcd4h3dibnoh759?l=%C3%A4%C3%AB%C3%B6%C3%BC%C3%AF" ]
+        - [ "foo@example.com", "direct", "https://example.com/.well-known/openpgpkey/hu/bxzcxpxk8h87z1k7bzk86xn5aj47intu?l=foo" ]
+      vars:
+        gpg_uid: "{{ item[0] }}"
+        wkd_method: "{{ item[1] }}"
+        wkd_url_actual: "{{ gpg_uid | wkd_url(wkd_method=wkd_method) }}"
+        wkd_url_expected: "{{ item[2] }}"
+      when: wkd_url_actual != wkd_url_expected
+      fail:
+        msg: "Unexpected wkd url {{ wkd_url_actual }} for uid {{ gpg_uid }}."

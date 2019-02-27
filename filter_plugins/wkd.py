@@ -3,6 +3,7 @@ __metaclass__ = type
 
 import hashlib
 from ansible.module_utils._text import to_bytes, to_text
+from ansible.module_utils.six.moves.urllib.parse import urlencode
 
 
 def _zb32_encode(data):
@@ -68,10 +69,55 @@ def wkd_hash(a, *args, **kw):
     return to_text(wkdhash)
 
 
+def wkd_host(a, wkd_method, *args, **kw):
+    """ Return the wkd domain for the given user id """
+    if wkd_method not in ["direct", "advanced"]:
+        raise AnsibleFilterError("Filter parameter wkd_method must be 'direct' or 'advanced'")
+
+    _, domain = a.lower().rsplit("@", 1)
+    if wkd_method == "direct":
+        result = domain
+    else:
+        result = "openpgpkey.{:s}".format(domain)
+
+    return to_text(result)
+
+
+def wkd_dir(a, wkd_method, *args, **kw):
+    """ Return directory part without hash for the given user id """
+    if wkd_method not in ["direct", "advanced"]:
+        raise AnsibleFilterError("Filter parameter wkd_method must be 'direct' or 'advanced'")
+
+    if wkd_method == "direct":
+        result = ".well-known/openpgpkey/hu"
+    else:
+        _, domain = a.lower().rsplit("@", 1)
+        result = ".well-known/openpgpkey/{:s}/hu".format(domain)
+
+    return to_text(result)
+
+
+def wkd_url(a, wkd_method, *args, **kw):
+    """ Return wkd url for the given user id """
+    if wkd_method not in ["direct", "advanced"]:
+        raise AnsibleFilterError("Filter parameter wkd_method must be 'direct' or 'advanced'")
+
+    localpart, _ = a.rsplit("@", 1)
+    return to_text("https://{:s}/{:s}/{:s}?{:s}".format(
+        wkd_host(a, wkd_method=wkd_method, *args, **kw),
+        wkd_dir(a, wkd_method=wkd_method, *args, **kw),
+        wkd_hash(a, *args, **kw),
+        urlencode({"l": to_bytes(localpart)})
+    ))
+
+
 class FilterModule(object):
     ''' Ansible core jinja2 filters '''
 
     def filters(self):
         return {
             'wkd_hash': wkd_hash,
+            'wkd_host': wkd_host,
+            'wkd_dir': wkd_dir,
+            'wkd_url': wkd_url,
         }
