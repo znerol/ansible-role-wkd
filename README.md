@@ -43,6 +43,6 @@ Usage of `wkd_hash` filter:
 License
 -------
 
-BSD
+GPLv3
 
 [1]: https://wiki.gnupg.org/WKD
