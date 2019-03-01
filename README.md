@@ -24,7 +24,7 @@ hash algorithm. It does not depend on GnuPG command line/library, nor does it
 provide modules / tasks capable of manipulating PGP key files. The following
 projects/roles provide higher level abstractions:
 
-* (https://galaxy.ansible.com/znerol/wkd_gpg)[znerol.wkd\_gpg]: Export GPG keys
+* [znerol.wkd\_gpg](https://galaxy.ansible.com/znerol/wkd_gpg): Export GPG keys
   into a WKD directory structure.
 
 Requirements
@@ -62,7 +62,7 @@ Usage of `wkd_hash` filter:
           debug:
             msg: "WKD hash for {{ item }} is {{ item | wkd_hash() }}"
 
-See (tests/test.yml)[test/test.yml] for sample input/output.
+See [test/test.yml](tests/test.yml) for sample input/output.
 
 License
 -------
